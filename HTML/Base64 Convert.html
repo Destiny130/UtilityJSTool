@@ -2,10 +2,47 @@
 <html>
 
 <head>
-    <title>Base64 Convert</title>
+    <title>HelperJS - HelperJS_Base64</title>
+    <meta charset="utf-8" />
+    <link href="../Style/Style.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="borderdashed">
+    <header class="auto80 borderdashed">
+        <img src="../Image/SP.png" width="500" />
+    </header>
+    <nav id="nav" class="auto95"></nav>
+    <main>
+        <div class="padding10">
+            <p style="font-weight: bold">Decode base64 or encode string to base64</p>
+            <table>
+                <tr>
+                    <td valign="top">Input:</td>
+                    <td>
+                        <textarea id="Base64Input" class="width900 height150"></textarea>
+                    </td>
+                    <td valign="top" style="padding-left: 10px">
+                        <br><button onclick="Decode()">Decode</button> <input type="checkbox" id="HexCheck" onclick="Decode()" style="margin-left: 10px"><label for="HexCheck">Hex format</label><br><br>
+                        <button onclick="Encode()">Encode</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Output:</td>
+                    <td colspan="2">
+                        <textarea id="Base64Output" class="width900 height150"></textarea>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+            <br />
+            <p id="CompareShow" class="breakall"></p>
+            <br />
+        </div>
+    </main>
+    <script src="../jquery-3.2.1.min.js"></script>
+    <script src="../crypto.js"></script>
+    <script src="../jPosService.js"></script>
+    <script src="HelperJS_Base64.js"></script>
 </body>
 
 </html>
