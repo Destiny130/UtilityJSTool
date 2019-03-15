@@ -1,11 +1,4 @@
-window.onload = function() {
-    var requestTemplate = 'AlQwMBwxLjM3HDAxHEFVVEhBTVQfVElQQU1UHBxFQ1JSRUZOVU0cHBwcHBwDfQ==';
-    var responseTemplate = 'AjAcVDAxHDEuNDAcMDAwMDAwHE9LHDAfREVNTyBBUFBST1ZFRB8wMDAwMDAfODg4ODg4ODgfHxwwMRxBUFBST1ZFREFNVB8wH1RJUEFNVB8wHzAfMB8xMjA0OB8yMDIyHDExMjUfMR8wNTIzHx8fHzAyHx8fHzAcVEVSTUlOQUxSRUZOVU0fRUNSUkVGTlVNH1RJTUVTVEFNUB8cHxwcHENBUkRCSU49NTQxMzMzH1BST0dSQU1UWVBFPTAfU049NDQzMzIyMTEfRENDPU4DXA==';
-    document.getElementById("RequestTemplate2").value = requestTemplate;
-    document.getElementById("ResponseTemplate2").value = responseTemplate;
-    document.getElementById("RequestTemplate1").value = base64decode(requestTemplate);
-    document.getElementById("ResponseTemplate1").value = base64decode(responseTemplate);
-}
+window.onload = function() {}
 
 function Decode() {
     var needHex = document.getElementById("HexCheck").checked;
@@ -39,37 +32,6 @@ function Encode() {
     }
     document.getElementById("Base64Output").value = result;
     document.getElementById("CompareShow").innerHTML = compareInner;
-}
-
-function GenerateMsgData() {
-    var requestTemplate = document.getElementById("RequestTemplate2").value;
-    var responseTemplate = document.getElementById("ResponseTemplate2").value;
-    console.log('req ', requestTemplate);
-    console.log('res ', responseTemplate);
-    var reqDecode = base64decode(requestTemplate);
-    var resDecode = base64decode(responseTemplate);
-    var msgData = '<Records>';
-    //Replace AUTHAMT, TIPAMT, ECRREFNUM in request template
-    //Replace APPROVEDAMT, TIPAMT, TERMINALREFNUM, ECRREFNUM, TIMESTAMP in response template
-    for (var i = 0; i < 10; ++i) {
-        var timestamp = new Date().Format("yyyyMMddHHmmss");
-        var ecrrefnum = (Math.random() * 1000).toFixed(0);
-        var terminalrefnum = i;
-        var posid = terminalrefnum % 3 != 0 ? 'posid111' : '';
-        var authamt = (Math.random() * 200000 + 2000).toFixed(0);
-        var tipamt = (Math.random() * 10000 + 500).toFixed(0);
-        var randomReq = base64encode(reqDecode.replace('AUTHAMT', authamt).replace('TIPAMT', tipamt).replace('ECRREFNUM', ecrrefnum));
-        var randomRes = base64encode((resDecode.replace('APPROVEDAMT', authamt + tipamt).replace('TIPAMT', tipamt).replace('TERMINALREFNUM', terminalrefnum).replace('ECRREFNUM', ecrrefnum).replace('TIMESTAMP', timestamp)));
-        msgData += '<Record>';
-        msgData += '<TransDateTime>' + timestamp + '</TransDateTime>';
-        msgData += '<TerminalRefNum>' + terminalrefnum + '</TerminalRefNum>';
-        msgData += '<POSID>' + posid + '</POSID>';
-        msgData += '<RequestMsg>' + randomReq + '</RequestMsg>';
-        msgData += '<ResponseMsg>' + randomRes + '</ResponseMsg>';
-        msgData += '</Record>';
-    }
-    msgData += '</Records>';
-    document.getElementById("MsgData").innerText = msgData;
 }
 
 var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -203,21 +165,4 @@ function CharToHex(str) {
     }
     out += "</table>";
     return out;
-}
-
-Date.prototype.Format = function(fmt, utc) {
-    var o = {
-        "M+": this.getMonth() + 1,
-        "d+": this.getDate(),
-        "H+": this.getHours() - (utc ? 8 : 0),
-        "m+": this.getMinutes(),
-        "s+": this.getSeconds(),
-        "q+": Math.floor((this.getMonth() + 3) / 3),
-        "S": this.getMilliseconds()
-    };
-    if (/(y+)/.test(fmt))
-        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
 }
